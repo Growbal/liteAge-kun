@@ -4,9 +4,7 @@
         <v-toolbar-title>おばあちゃん</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn class="ml-1" variant="text" icon="mdi-magnify" @click="click"></v-btn>
-        <v-btn class="ml-1" variant="text" icon="mdi-phone">
-        </v-btn>
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-btn class="ml-1" variant="text" icon="mdi-phone"></v-btn>
         </v-toolbar>
     </div>
 </template>  
