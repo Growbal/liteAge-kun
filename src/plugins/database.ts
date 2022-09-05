@@ -1,10 +1,9 @@
-// import type { RunResult, sqlite3 as Sqlite3 } from "sqlite3";
-
-import type { Database } from "sqlite3";
+// import type { Database } from "sqlite3";
+import sqlite3 from "sqlite3";
 
 (async () => {
   try {
-    const db = new Database("db.sqlite3");
+    const db = new sqlite3.Database("db.sqlite3");
 
     db.on("trace", (sql) => {
       console.log(sql);
@@ -49,7 +48,3 @@ import type { Database } from "sqlite3";
     console.error(err);
   }
 })();
-
-export function start() {
-  console.log("start");
-}

@@ -16,6 +16,7 @@ const vuetify = createVuetify({
 
 loadFonts();
 
-database.start();
+// database.start();
+// database.openDb();
 
 createApp(App).use(router).use(vuetify).mount("#app");
