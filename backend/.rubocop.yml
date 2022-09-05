@@ -1,0 +1,18 @@
+require:
+  - rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 3.1
+  TargetRailsVersion: 7.0
+  NewCops: enable
+  Exclude:
+    - bin/**
+    - vendor/**/*
+    - db/migrate/*
+    - db/schema.rb
+    - config.ru
+    - tmp/**/*
+    - public/**/*
+
+Style/Documentation:
+  Enabled: false
