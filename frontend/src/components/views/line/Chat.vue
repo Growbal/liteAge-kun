@@ -1,6 +1,6 @@
 <template>
 <div class="execpannel">
-        <v-row align="start" no-gutters style="height: 800px">
+        <v-row align="start" no-gutters>
           <QuestionPannel />
             <v-col cols="9" >
               <div class="d-flex justify-center pr-3">残り{{ timer }}秒</div>
@@ -12,7 +12,7 @@
                     <v-row justify="end">
                       <v-dialog v-model="lineTelDialog" persistent width="2000">
                         <template v-slot:activator="{ isActive: on, props: attrs }">
-                          <v-btn v-bind="attrs" v-on="on" class="ml-4" variant="text" icon="mdi-phone"></v-btn>
+                          <v-btn v-bind="attrs" v-on="on" class="ml-4" variant="text" icon="mdi-phone">aaa</v-btn>
                         </template>
                         <v-card height="50vh" width="50vh">
                           <v-card-text></v-card-text>
@@ -29,7 +29,7 @@
                             <v-row>
                               <v-col>
                                 <v-row justify="center">
-                                  <v-btn variant="text" icon="mdi-microphone-outline"></v-btn>
+                                  <v-btn variant="text" icon="mdi-microphone-outline" ></v-btn>
                                 </v-row>
                                 <v-row justify="center">
                                   <p class="text-caption">マイクをオフ</p>
@@ -37,7 +37,7 @@
                               </v-col>
                               <v-col>
                                 <v-row justify="center">
-                                  <v-btn variant="text" icon="mdi-close-circle" @click="lineTelDialog = false"></v-btn>
+                                  <v-btn variant="text" icon="mdi-close-circle" @click="lineTelDialog = false;show=false"></v-btn>
                                 </v-row>
                                 <v-row justify="center">
                                   <p class="text-caption">ビデオを終了</p>
@@ -71,7 +71,7 @@
                     </v-row>
                   </v-col>
                 </v-toolbar>
-              <v-card class="pa-5" height="52vh" >
+              <v-card class="pa-5" :height="heightcard" >
                 <div v-for="chat in chats">
                   <v-layout class="justify-start pb-3" v-if="!chat.isUser">
                     <v-avatar color="teal" size="56">
@@ -110,7 +110,6 @@
 
       <v-dialog v-model="phoneTelDialog" persistent width="2000">
         <template v-slot:activator="{ isActive: on, props: attrs }">
-          <v-btn v-bind="attrs" v-on="on" class="ml-4" variant="text" icon="mdi-phone"></v-btn>
         </template>
         <v-card height="50vh" width="70vh" color="black">
           <v-card-text></v-card-text>
@@ -145,7 +144,16 @@
               </v-col>
             </v-row>
           </v-card-actions>
-          <v-btn variant="text" icon="mdi-close-circle" @click="phoneTelDialog = false"></v-btn>
+          <v-row >
+            <v-col>
+              <v-row justify="center">
+                <v-btn variant="text" icon="mdi-close-circle" @click="phoneTelDialog = false; "></v-btn>
+              </v-row>
+              <v-row justify="center">
+                <p class="text-caption">電話を切る</p>
+              </v-row>
+            </v-col>
+          </v-row>
           <v-card-text></v-card-text>
         </v-card>
       </v-dialog>
@@ -167,7 +175,6 @@ interface Chat {
   isUser: boolean;
   message: string;
 }
-
 export default defineComponent({
   name: "App",
 
@@ -180,7 +187,7 @@ export default defineComponent({
       chats: [] as Chat[],
       chatMessage: "" as string,
       botMessageNumber: 0 as number,
-      
+      heightcard:'55vh'
     };
   },
 
@@ -204,11 +211,19 @@ export default defineComponent({
     timerCount: function () {
       if (this.timer <= 0) {
         clearInterval(timer);
+        
       } else {
         this.timer--;
       }
     },
-    
+    // cellbtn:function(){
+    //   if(this.show==false){
+    //     console.log('hogehogehoge')
+    //     this.heightcard = '51vh'
+    //   }else{
+    //     this.heightcard = '55vh'
+    //   }
+    // },
     startTimer: function () {
       let self = this;
       setInterval(function () {
@@ -217,7 +232,12 @@ export default defineComponent({
     },
 
     click: function(){
-      this.show = !this.show
+      this.show = !this.show;
+      if(this.show==false){
+        this.heightcard = '55vh';
+      }else{
+        this.heightcard = '45.6vh';
+      }
     },
 
     nextChatId: function () {
