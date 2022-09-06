@@ -34,6 +34,8 @@
 </template>
 
 <script lang="ts">
+import * as api from "../../db-util/index";
+
 export default {
   name: "QuestionPannel",
   data() {
@@ -46,8 +48,8 @@ export default {
     answerScreen: function () {
       this.dialog = false;
       this.$router.push("/Answer");
+      api.postScore(1, 13, 100);
     },
-    // ToDo: ボタンクリックしたらpostする
   },
   props: {
     pannelheight: {

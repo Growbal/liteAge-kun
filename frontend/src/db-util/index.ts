@@ -11,3 +11,23 @@ export function getScore() {
     }
   });
 }
+
+export function postScore(
+  userId: number,
+  questioNumber: number,
+  score: number
+) {
+  axios
+    .post(host + "/api/scores", {
+      userId: userId,
+      questioNumber: questioNumber,
+      score: score,
+    })
+    .then(function (response) {
+      if (response.status == 200) {
+        console.log("OK");
+      } else {
+        console.log("NG");
+      }
+    });
+}

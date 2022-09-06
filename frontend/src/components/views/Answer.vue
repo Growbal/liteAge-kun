@@ -13,9 +13,5 @@ import * as api from "../../db-util/index";
 
 export default defineComponent({
   name: "App",
-
-  mounted() {
-    api.getScore();
-  },
 });
 </script>
