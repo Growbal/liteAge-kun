@@ -42,11 +42,14 @@ export function postScore(
       headers: headers,
     })
     .then(function (response) {
-      if (response.status == 200) {
+      if (response.data.success) {
         console.log("OK");
       } else {
-        console.log("NG");
+        console.log("エラー: " + response.data.message);
       }
+    })
+    .catch(function (error) {
+      console.dir(error);
     });
 }
 
@@ -54,10 +57,13 @@ export function getTotalScore(userId: number) {
   axios
     .get(host + "/api/users/" + userId + "/total_score")
     .then(function (response) {
-      if (response.status == 200) {
+      if (response.success) {
         console.log(response.data.total_score);
       } else {
-        console.log("だめです");
+        console.log("エラー: " + +response.data.message);
       }
+    })
+    .catch(function (error) {
+      console.dir(error);
     });
 }
