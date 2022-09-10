@@ -37,7 +37,7 @@ export function postScore(
       if (response.data.success) {
         console.log("OK");
       } else {
-        console.log("エラー: " + response.data.message);
+        console.log("create_scoreエラー: " + response.data.message);
       }
     })
     .catch(function (error) {
@@ -50,9 +50,9 @@ export function getTotalScore(userId: number) {
     .get(host + "/api/users/" + userId + "/total_score")
     .then(function (response) {
       if (response.success) {
-        console.log(response.data.total_score);
+        console.dir(response.data.total_score);
       } else {
-        console.log("エラー: " + +response.data.message);
+        console.log("getTotalScoreエラー: " + response.data.message);
       }
     })
     .catch(function (error) {
