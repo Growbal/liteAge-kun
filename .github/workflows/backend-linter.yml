@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - backend/*
-      - .github/workflow/backend-linter
+      - .github/workflows/backend-linter
 defaults:
   run:
     working-directory: ./backend
