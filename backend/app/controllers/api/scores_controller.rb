@@ -12,7 +12,7 @@ module Api
     end
 
     def total
-      user = User.find_by(id: params[:user_id])
+      user = User.find(params[:user_id])
       total_score = user.user_scores.sum(:score)
       render json: { total_score: }, status: :ok
     rescue => e
