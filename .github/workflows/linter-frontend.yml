@@ -1,4 +1,4 @@
-name: frontend-lint
+name: linter-frontend
 on: push
 jobs:
   eslint:
