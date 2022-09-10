@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
 module Api
-  class ScoresController < ApplicationController
+  class UsersController < ApplicationController
     protect_from_forgery expect: :create
 
-    def create
-      UserScore.create!(user_score_params)
+    def create_score
+      find_user.user_scores.create!(user_score_params)
       render json: { message: 'OK' }, status: :ok
     rescue => e
       render json: { message: e.message }, status: :internal_server_error
     end
 
-    def total
-      user = User.find(params[:user_id])
-      total_score = user.user_scores.sum(:score)
+    def total_score
+      total_score = find_user.user_scores.sum(:score)
       render json: { total_score: }, status: :ok
     rescue => e
       render json: { message: e.message }, status: :internal_server_error
@@ -21,9 +20,12 @@ module Api
 
     private
 
+    def find_user
+      @user ||= User.find(params[:id])
+    end
+
     def user_score_params
-      params.permit(
-        :user_id,
+      params.require(:user_scores).permit(
         :question_id,
         :waypoint_status,
         :score,

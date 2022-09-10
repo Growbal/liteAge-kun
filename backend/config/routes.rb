@@ -3,9 +3,10 @@
 Rails.application.routes.draw do
   namespace :api do
     resources :tests, only: %i[index]
-    resources :scores, only: %i[create] do
-      collection do
-        get :total
+    resources :users, only: %i[] do
+      member do
+        post :create_score
+        get :total_score
       end
     end
   end
