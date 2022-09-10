@@ -211,7 +211,11 @@ export default defineComponent({
     timerCount: function () {
       if (this.timer <= 0) {
         clearInterval(timer);
+<<<<<<< Updated upstream
         
+=======
+        this.$router.push('/answer');
+>>>>>>> Stashed changes
       } else {
         this.timer--;
       }
@@ -263,7 +267,6 @@ export default defineComponent({
       };
       this.chats.push(userChat);
       this.chatMessage = "";
-
       setTimeout(() => {
         let botChat: Chat = {
           id: this.nextChatId(),
