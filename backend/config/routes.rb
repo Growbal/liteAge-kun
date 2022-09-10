@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   namespace :api do
+    resources :tests, only: %i[index]
     resources :users, only: %i[] do
       member do
         post :create_score
