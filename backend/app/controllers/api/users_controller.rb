@@ -13,7 +13,7 @@ module Api
 
     def total_score
       total_score = user.user_scores.sum(:score)
-      render json: { tsuccess: true, otal_score: }, status: :ok
+      render json: { tsuccess: true, total_score: }, status: :ok
     rescue => e
       render json: { success: false, message: e.message }, status: :ok
     end
