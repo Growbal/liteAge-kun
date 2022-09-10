@@ -7,7 +7,15 @@ module Api
     def create
       UserScore.create!(user_score_params)
       render json: { message: 'OK' }, status: :ok
-    rescue StandardError => e
+    rescue => e
+      render json: { message: e.message }, status: :internal_server_error
+    end
+
+    def total
+      user = User.find_by(id: params[:user_id])
+      total_score = user.user_scores.sum(:score)
+      render json: { total_score: }, status: :ok
+    rescue => e
       render json: { message: e.message }, status: :internal_server_error
     end
 
@@ -18,7 +26,7 @@ module Api
         :user_id,
         :question_id,
         :waypoint_status,
-        :score
+        :score,
       )
     end
   end

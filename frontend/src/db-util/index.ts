@@ -33,3 +33,15 @@ export function postScore(
       }
     });
 }
+
+export function getTotalScore(userId: number) {
+  axios
+    .get(host + "/api/scores/total?user_id=" + userId)
+    .then(function (response) {
+      if (response.status == 200) {
+        console.log(response.data.total_score);
+      } else {
+        console.log("だめです");
+      }
+    });
+}
