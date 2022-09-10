@@ -33,7 +33,7 @@ module Api
     private
 
     def user
-      @user ||= User.find(params[:id]).eager_load(:user_scores)
+      @user ||= User.includes(:user_scores).find(params[:id])
     end
 
     def user_score_params
