@@ -5,14 +5,14 @@ module Api
     protect_from_forgery expect: :create
 
     def create_score
-      find_user.user_scores.create!(user_score_params)
+      user.user_scores.create!(user_score_params)
       render json: { message: 'OK' }, status: :ok
     rescue => e
       render json: { message: e.message }, status: :internal_server_error
     end
 
     def total_score
-      total_score = find_user.user_scores.sum(:score)
+      total_score = user.user_scores.sum(:score)
       render json: { total_score: }, status: :ok
     rescue => e
       render json: { message: e.message }, status: :internal_server_error
@@ -20,7 +20,7 @@ module Api
 
     private
 
-    def find_user
+    def user
       @user ||= User.find(params[:id])
     end
 
