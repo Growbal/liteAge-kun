@@ -6,16 +6,16 @@ module Api
 
     def create_score
       user.user_scores.create!(user_score_params)
-      render json: { message: 'OK' }, status: :ok
+      render json: { success: true }, status: :ok
     rescue => e
-      render json: { message: e.message }, status: :internal_server_error
+      render json: { success: false, message: e.message }, status: :ok
     end
 
     def total_score
       total_score = user.user_scores.sum(:score)
-      render json: { total_score: }, status: :ok
+      render json: { tsuccess: true, otal_score: }, status: :ok
     rescue => e
-      render json: { message: e.message }, status: :internal_server_error
+      render json: { success: false, message: e.message }, status: :ok
     end
 
     private
