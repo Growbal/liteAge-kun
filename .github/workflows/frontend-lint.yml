@@ -5,10 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: npm install
-        run: npm install
-      - uses: reviewdog/action-eslint@v1
+      - uses: actions/setup-node@v3
         with:
-          working-directory: ${{ github.workspace }}/frontend
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint_flags: ". --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+          node-version: "16.17.0"
+      - name: npm run lint
+        working-directory: ${{ github.workspace }}/frontend
+        run: "npm run lint"
