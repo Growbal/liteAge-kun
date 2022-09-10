@@ -3,14 +3,13 @@ on: push
 jobs:
   rubocop:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "${{ github.workspace }}/backend"
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
         with:
+          working-directory: ${{ github.workspace }}/backend
           ruby-version: 3.1.2
           bundler-cache: true
       - name: RuboCop実行
+        working-directory: ${{ github.workspace }}/backend
         run: bundle exec rubocop --parallel
