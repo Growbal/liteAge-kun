@@ -2,7 +2,7 @@
 
 module Api
   class UsersController < ApplicationController
-    protect_from_forgery expect: :create
+    protect_from_forgery expect: %i[create_score]
 
     def create_score
       user.user_scores.create!(user_score_params)
