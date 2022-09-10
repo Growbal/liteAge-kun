@@ -12,7 +12,7 @@ module Api
     end
 
     def waypoint_score
-      waypoint_score = 
+      waypoint_score =
         user
         .user_scores
         .find_by(question_id: params[:question_id], waypoint_status: params[:waypoint_status])
