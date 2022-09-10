@@ -8,4 +8,5 @@ jobs:
       - uses: reviewdog/action-eslint@v1
         with:
           working-directory: ${{ github.workspace }}/frontend
-          eslint_flags: "src/"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          eslint_flags: ". --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
