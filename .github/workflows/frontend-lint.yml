@@ -1,0 +1,11 @@
+name: frontend-lint
+on: push
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: reviewdog/action-eslint@v1
+        with:
+          working-directory: ${{ github.workspace }}/frontend
+          eslint_flags: "src/"
