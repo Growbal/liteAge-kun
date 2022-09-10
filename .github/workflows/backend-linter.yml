@@ -6,7 +6,7 @@ on:
       - .github/workflows/backend-linter.yml
 defaults:
   run:
-    working-directory: ./backend
+    working-directory: ${{ github.workspace }}/backend
 jobs:
   rubocop:
     runs-on: ubuntu-latest
