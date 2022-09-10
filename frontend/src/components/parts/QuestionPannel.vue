@@ -48,7 +48,7 @@ export default {
     answerScreen: function () {
       this.dialog = false;
       this.$router.push("/Answer");
-      api.postScore(1, 13, 100);
+      api.postScore(1, 1, 1, 100);
     },
   },
   props: {

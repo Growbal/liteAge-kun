@@ -14,13 +14,15 @@ export function getScore() {
 
 export function postScore(
   userId: number,
-  questioNumber: number,
+  questioId: number,
+  waypointStatus: number,
   score: number
 ) {
   axios
     .post(host + "/api/scores", {
-      userId: userId,
-      questioNumber: questioNumber,
+      user_id: userId,
+      question_id: questioId,
+      waypoint_status: waypointStatus,
       score: score,
     })
     .then(function (response) {
