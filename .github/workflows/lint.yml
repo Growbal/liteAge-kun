@@ -4,7 +4,8 @@ jobs:
   rubocop:
     runs-on: ubuntu-latest
     steps:
-      - run: ls
+      - name: カレントフォルダの移動
+        - run: cd backend
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
         with:
