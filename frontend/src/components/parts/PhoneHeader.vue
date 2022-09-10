@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-toolbar height="35" color="rgb(0, 195, 0,0.5)">
+        <v-toolbar height="35" color="rgb(0, 195, 0,0.5)" rounded=".rounded-b-0">
             <span class="ml-3">18:30</span>
             <v-spacer></v-spacer>
             <v-icon icon="mdi-wifi-strength-2" size="x-small" class="ml-2"></v-icon>
