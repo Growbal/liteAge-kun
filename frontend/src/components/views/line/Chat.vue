@@ -172,7 +172,7 @@ import LineTitle from './../../../components/parts/LineTitle.vue';
 
 // let client_h = document.getElementById('test').clientHeight;
 // console.log(client_h)
-let oneceTelephone = false;
+let oneceTelephone: boolean = false;
 let timer: any = null;
 const botMessagesAll: string[] = ["kazuくん、こんばんわ。今日お家来るんだってね。\n何時ごろにお家に来ますか。連絡待ってます。", "文字が見えにくいので電話します", "333", "444"];
 interface Chat {
@@ -201,7 +201,7 @@ export default defineComponent({
 
   mounted() {
     timer = this.startTimer();
-    const chat: Chat = {
+    let chat: Chat = {
       id: 1,
       isUser: false,
       message: botMessagesAll[this.botMessageNumber],
@@ -217,7 +217,7 @@ export default defineComponent({
     });
     window.addEventListener('resize', this.handleResize);
 
-  }, beforeUnmount() {
+  }, beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
   },
   components: {
@@ -239,7 +239,7 @@ export default defineComponent({
       this.height_vh = `${lainframe_height * 100/this.height }vh`
     },
     startTimer: function () {
-      const self = this;
+      let self = this;
       setInterval(function () {
         self.timerCount();
       }, 1000);
@@ -270,7 +270,7 @@ export default defineComponent({
         oneceTelephone = true;
       }
 
-      const userChat: Chat = {
+      let userChat: Chat = {
         id: this.nextChatId(),
         isUser: true,
         message: this.chatMessage,
@@ -279,7 +279,7 @@ export default defineComponent({
       this.chatMessage = "";
 
       setTimeout(() => {
-        const botChat: Chat = {
+        let botChat: Chat = {
           id: this.nextChatId(),
           isUser: false,
           message: botMessagesAll[this.botMessageNumber],
