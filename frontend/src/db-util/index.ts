@@ -45,41 +45,66 @@ export function postScore(
     });
 }
 
+export async function getWaypointScore2(
+  userId: number,
+  questionId: number,
+  waypointStatus: number
+) {
+  try {
+    const res = await axios.get(
+      host + "/api/users/" + userId + "/waypoint_score",
+      {
+        params: {
+          question_id: questionId,
+          waypoint_status: waypointStatus,
+        },
+      }
+    );
+    return res.data.waypoint_score;
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+}
 export function getWaypointScore(
   userId: number,
   questionId: number,
   waypointStatus: number
 ) {
-  axios
-    .get(host + "/api/users/" + userId + "/waypoint_score", {
-      params: {
-        question_id: questionId,
-        waypoint_status: waypointStatus,
-      },
-    })
-    .then(function (response) {
-      if (response.data.success) {
-        console.dir(response.data.waypoint_score);
-      } else {
-        console.log("getWaypointScore エラー: " + response.data.message);
-      }
-    })
-    .catch(function (error) {
-      console.dir(error);
-    });
+  return new Promise((resolve, _reject) => {
+    axios
+      .get(host + "/api/users/" + userId + "/waypoint_score", {
+        params: {
+          question_id: questionId,
+          waypoint_status: waypointStatus,
+        },
+      })
+      .then(function (response) {
+        if (response.data.success) {
+          resolve(response.data.waypoint_score);
+        } else {
+          console.log("getWaypointScore エラー: " + response.data.message);
+        }
+      })
+      .catch(function (error) {
+        console.dir(error);
+      });
+  });
 }
 
 export function getTotalScore(userId: number) {
-  axios
-    .get(host + "/api/users/" + userId + "/total_score")
-    .then(function (response) {
-      if (response.data.success) {
-        console.dir(response.data.total_score);
-      } else {
-        console.log("getTotalScore エラー: " + response.data.message);
-      }
-    })
-    .catch(function (error) {
-      console.dir(error);
-    });
+  return new Promise((resolve, _reject) => {
+    axios
+      .get(host + "/api/users/" + userId + "/total_score")
+      .then(function (response) {
+        if (response.data.success) {
+          resolve(response.data.total_score);
+        } else {
+          console.log("getTotalScore エラー: " + response.data.message);
+        }
+      })
+      .catch(function (error) {
+        console.dir(error);
+      });
+  });
 }
