@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[] do
       member do
         post :create_score
+        get :waypoint_score
         get :total_score
       end
     end

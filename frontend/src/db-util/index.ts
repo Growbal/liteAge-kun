@@ -37,7 +37,31 @@ export function postScore(
       if (response.data.success) {
         console.log("OK");
       } else {
-        console.log("create_scoreエラー: " + response.data.message);
+        console.log("postScore エラー: " + response.data.message);
+      }
+    })
+    .catch(function (error) {
+      console.dir(error);
+    });
+}
+
+export function getWaypointScore(
+  userId: number,
+  questionId: number,
+  waypointStatus: number
+) {
+  axios
+    .get(host + "/api/users/" + userId + "/waypoint_score", {
+      params: {
+        question_id: questionId,
+        waypoint_status: waypointStatus,
+      },
+    })
+    .then(function (response) {
+      if (response.data.success) {
+        console.dir(response.data.waypoint_score);
+      } else {
+        console.log("getWaypointScore エラー: " + response.data.message);
       }
     })
     .catch(function (error) {
@@ -49,10 +73,10 @@ export function getTotalScore(userId: number) {
   axios
     .get(host + "/api/users/" + userId + "/total_score")
     .then(function (response) {
-      if (response.success) {
+      if (response.data.success) {
         console.dir(response.data.total_score);
       } else {
-        console.log("getTotalScoreエラー: " + response.data.message);
+        console.log("getTotalScore エラー: " + response.data.message);
       }
     })
     .catch(function (error) {
