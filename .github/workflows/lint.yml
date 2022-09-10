@@ -11,4 +11,5 @@ jobs:
           ruby-version: 3.1.2
           bundler-cache: true
       - name: RuboCop実行
+        working-directory: ${{ github.workspace }}/backend
         run: bundle exec rubocop --parallel
