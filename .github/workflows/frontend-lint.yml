@@ -10,4 +10,4 @@ jobs:
           node-version: "16.17.0"
       - name: npm run lint
         working-directory: ${{ github.workspace }}/frontend
-        run: "npm run lint"
+        run: "npm install && npm run lint"
