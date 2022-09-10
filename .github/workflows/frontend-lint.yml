@@ -3,13 +3,12 @@ on: push
 jobs:
   eslint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "frontend"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
+          working-directory: ${{ github.workspace }}/frontend
           node-version: "16.17.0"
       - name: npm run lint
+        working-directory: ${{ github.workspace }}/frontend
         run: "npm run lint"
