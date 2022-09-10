@@ -18,11 +18,8 @@ export default defineComponent({
     return {};
   },
 
-  mounted() {},
   components: {
     MainHeader,
   },
-  methods: {},
-  computed: {},
 });
 </script>

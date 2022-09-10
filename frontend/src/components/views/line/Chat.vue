@@ -2,9 +2,9 @@
   <div class="execpannel">
     <div class="d-flex justify-center pr-3">残り{{ timer }}秒</div>
     <v-row align="start" no-gutters>
-      <QuestionPannel :pannelheight="height_vh"/>
+      <QuestionPannel :pannelheight="height_vh" />
       <v-col cols="9">
-        <div class="linepannel" ref="lineframe" height="1200px" >
+        <div class="linepannel" ref="lineframe" height="1200px">
           <!-- :hegiht="lainframe_height" -->
           <PhoneHeader />
           <LineTitle @click="click" />
@@ -13,13 +13,23 @@
               <v-row justify="end">
                 <v-dialog v-model="lineTelDialog" persistent width="2000">
                   <template v-slot:activator="{ isActive: on, props: attrs }">
-                    <v-btn v-bind="attrs" v-on:click="on" class="ml-4" variant="text" icon="mdi-phone"></v-btn>
+                    <!-- eslint-disable vue/no-unused-vars -->
+                    <v-btn
+                      v-bind="attrs"
+                      v-on:click="on"
+                      class="ml-4"
+                      variant="text"
+                      icon="mdi-phone"
+                    ></v-btn>
                   </template>
                   <v-card height="50vh" width="50vh">
                     <v-card-text></v-card-text>
                     <v-row justify="center">
                       <v-avatar color="teal" size="56">
-                        <img src="./../../../assets/keirou_obaachan.png" class="avatar-picture">
+                        <img
+                          src="./../../../assets/keirou_obaachan.png"
+                          class="avatar-picture"
+                        />
                       </v-avatar>
                     </v-row>
                     <h4 class="text-center">おばあちゃん</h4>
@@ -30,7 +40,10 @@
                       <v-row>
                         <v-col>
                           <v-row justify="center">
-                            <v-btn variant="text" icon="mdi-microphone-outline"></v-btn>
+                            <v-btn
+                              variant="text"
+                              icon="mdi-microphone-outline"
+                            ></v-btn>
                           </v-row>
                           <v-row justify="center">
                             <p class="text-caption">マイクをオフ</p>
@@ -38,7 +51,14 @@
                         </v-col>
                         <v-col>
                           <v-row justify="center">
-                            <v-btn variant="text" icon="mdi-close-circle" @click="lineTelDialog = false;show=false">
+                            <v-btn
+                              variant="text"
+                              icon="mdi-close-circle"
+                              @click="
+                                lineTelDialog = false;
+                                show = false;
+                              "
+                            >
                             </v-btn>
                           </v-row>
                           <v-row justify="center">
@@ -47,7 +67,10 @@
                         </v-col>
                         <v-col>
                           <v-row justify="center">
-                            <v-btn variant="text" icon="mdi-volume-source"></v-btn>
+                            <v-btn
+                              variant="text"
+                              icon="mdi-volume-source"
+                            ></v-btn>
                           </v-row>
                           <v-row justify="center">
                             <p class="text-caption">スピーカー</p>
@@ -74,10 +97,13 @@
             </v-col>
           </v-toolbar>
           <v-card class="pa-5" :height="heightcard">
-            <div v-for="chat in chats">
+            <div v-for="chat in chats" :key="chat.id">
               <v-layout class="justify-start pb-3" v-if="!chat.isUser">
                 <v-avatar color="teal" size="56">
-                  <img src="./../../../assets/keirou_obaachan.png" class="avatar-picture" />
+                  <img
+                    src="./../../../assets/keirou_obaachan.png"
+                    class="avatar-picture"
+                  />
                 </v-avatar>
                 <v-card outlined color="rgb(239	239	239)" class="chat-message">
                   <v-card-text>{{ chat.message }}</v-card-text>
@@ -85,10 +111,10 @@
                 <p class="text-caption pl-3 chat-capition">{{ nowTime }}</p>
               </v-layout>
               <v-layout class="justify-end pb-3" v-if="chat.isUser">
-                <p class="text-caption pr-3 chat-capition">
-                <p style="width: 100%">既読</p>
-                <p>{{ nowTime }}</p>
-                </p>
+                <div class="text-caption pr-3 chat-capition">
+                  <p style="width: 100%">既読</p>
+                  <p>{{ nowTime }}</p>
+                </div>
                 <v-card outlined color="rgb(134	217	123)" class="chat-message">
                   <v-card-text>{{ chat.message }}</v-card-text>
                 </v-card>
@@ -99,8 +125,15 @@
             <v-icon icon="mdi-plus" class="ml-3"></v-icon>
             <v-icon icon="mdi-camera" class="ml-3"></v-icon>
             <v-icon icon="mdi-image" class="ml-3"></v-icon>
-            <v-form class="d-flex" style="flex-grow: 1; flex-shrink: 1" @submit.prevent="sendMessage">
-              <v-text-field v-model="chatMessage" placeholder="メッセージを入力してください"></v-text-field>
+            <v-form
+              class="d-flex"
+              style="flex-grow: 1; flex-shrink: 1"
+              @submit.prevent="sendMessage"
+            >
+              <v-text-field
+                v-model="chatMessage"
+                placeholder="メッセージを入力してください"
+              ></v-text-field>
             </v-form>
             <v-icon icon="mdi-microphone" class="ml-3"></v-icon>
             <v-app-bar-nav-icon></v-app-bar-nav-icon>
@@ -111,13 +144,15 @@
   </div>
 
   <v-dialog v-model="phoneTelDialog" persistent width="2000">
-    <template v-slot:activator="{ isActive: on, props: attrs }">
-    </template>
+    <template v-slot:activator="{ isActive: on, props: attrs }"> </template>
     <v-card height="50vh" width="70vh" color="black">
       <v-card-text></v-card-text>
       <v-row justify="center">
         <v-avatar color="teal" size="56">
-          <img src="./../../../assets/keirou_obaachan.png" class="avatar-picture">
+          <img
+            src="./../../../assets/keirou_obaachan.png"
+            class="avatar-picture"
+          />
         </v-avatar>
       </v-row>
       <h4 class="text-center">おばあちゃん</h4>
@@ -138,7 +173,11 @@
           </v-col>
           <v-col>
             <v-row justify="center">
-              <v-btn variant="text" icon="mdi-close-circle" @click="phoneTelDialog = false"></v-btn>
+              <v-btn
+                variant="text"
+                icon="mdi-close-circle"
+                @click="phoneTelDialog = false"
+              ></v-btn>
             </v-row>
             <v-row justify="center">
               <p class="text-caption">メッセージを送信</p>
@@ -149,7 +188,11 @@
       <v-row>
         <v-col>
           <v-row justify="center">
-            <v-btn variant="text" icon="mdi-close-circle" @click="phoneTelDialog = false; "></v-btn>
+            <v-btn
+              variant="text"
+              icon="mdi-close-circle"
+              @click="phoneTelDialog = false"
+            ></v-btn>
           </v-row>
           <v-row justify="center">
             <p class="text-caption">電話を切る</p>
@@ -163,18 +206,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MainHeader from './../../../components/parts/MainHeader.vue';
-import QuestionPannel from './../../../components/parts/QuestionPannel.vue';
-import PhoneHeader from './../../../components/parts/PhoneHeader.vue';
-import LineTitle from './../../../components/parts/LineTitle.vue';
-
-
+import QuestionPannel from "./../../../components/parts/QuestionPannel.vue";
+import PhoneHeader from "./../../../components/parts/PhoneHeader.vue";
+import LineTitle from "./../../../components/parts/LineTitle.vue";
 
 // let client_h = document.getElementById('test').clientHeight;
 // console.log(client_h)
 let oneceTelephone = false;
 let timer: any = null;
-const botMessagesAll: string[] = ["kazuくん、こんばんわ。今日お家来るんだってね。\n何時ごろにお家に来ますか。連絡待ってます。", "文字が見えにくいので電話します", "333", "444"];
+const botMessagesAll: string[] = [
+  "kazuくん、こんばんわ。今日お家来るんだってね。\n何時ごろにお家に来ますか。連絡待ってます。",
+  "文字が見えにくいので電話します",
+  "333",
+  "444",
+];
 interface Chat {
   id: number;
   isUser: boolean;
@@ -192,10 +237,10 @@ export default defineComponent({
       chats: [] as Chat[],
       chatMessage: "" as string,
       botMessageNumber: 0 as number,
-      heightcard: '55vh',
+      heightcard: "55vh",
       height: window.innerHeight,
-      lainframe_height:0,
-      height_vh:''
+      lainframe_height: 0,
+      height_vh: "",
     };
   },
 
@@ -211,17 +256,16 @@ export default defineComponent({
 
     const dom = this.$refs.lineframe;
     const rect = dom.getBoundingClientRect();
-    const lainframe_height =  rect.height;
+    const lainframe_height = rect.height;
     console.log({
-      height: lainframe_height
+      height: lainframe_height,
     });
-    window.addEventListener('resize', this.handleResize);
-
-  }, beforeUnmount() {
-    window.removeEventListener('resize', this.handleResize)
+    window.addEventListener("resize", this.handleResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize);
   },
   components: {
-    MainHeader,
     QuestionPannel,
     PhoneHeader,
     LineTitle,
@@ -234,12 +278,12 @@ export default defineComponent({
         this.timer--;
       }
     },
-    handleResize:function(lainframe_height){
+    handleResize: function (lainframe_height) {
       this.height = window.innerHeight;
-      this.height_vh = `${lainframe_height * 100/this.height }vh`
+      this.height_vh = `${(lainframe_height * 100) / this.height}vh`;
     },
     startTimer: function () {
-      const self = this;
+      const self = this; // eslint-disable-line @typescript-eslint/no-this-alias
       setInterval(function () {
         self.timerCount();
       }, 1000);
@@ -248,9 +292,9 @@ export default defineComponent({
     click: function () {
       this.show = !this.show;
       if (!this.show) {
-        this.heightcard = '55vh';
+        this.heightcard = "55vh";
       } else {
-        this.heightcard = '45.6vh';
+        this.heightcard = "45.6vh";
       }
     },
 
@@ -265,7 +309,7 @@ export default defineComponent({
 
       if (!oneceTelephone) {
         setTimeout(() => {
-          this.phoneTelDialog = true
+          this.phoneTelDialog = true;
         }, 5000);
         oneceTelephone = true;
       }
@@ -299,7 +343,6 @@ export default defineComponent({
       );
     },
   },
-  
 });
 </script>
 

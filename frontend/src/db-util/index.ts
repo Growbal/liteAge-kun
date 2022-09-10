@@ -5,14 +5,6 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-const instance = axios.create({
-  baseURL: "http://localhost:3000",
-  timeout: 1000,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
 export function getScore() {
   axios.get(host + "/api/tests").then(function (response) {
     if (response.status == 200) {

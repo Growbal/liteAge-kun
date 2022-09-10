@@ -41,7 +41,6 @@ export default {
   data() {
     return {
       dialog: false,
-      pannelheight: "78vh",
     };
   },
   methods: {

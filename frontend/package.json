@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "build": "run-p type-check build-only",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint": "eslint . --ext .vue,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "build-only": "vite build",
     "dev": "vite",
     "preview": "vite preview --port 4173",
