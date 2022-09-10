@@ -1,10 +1,10 @@
-name: backend-linter
+name: lint
 on: push
-defaults:
-  working-directory: ${{ github.workspace }}/backend
 jobs:
   rubocop:
     runs-on: ubuntu-latest
+    defaults:
+      working-directory: ./backend
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
