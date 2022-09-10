@@ -1,4 +1,4 @@
-name: lint
+name: linter-backend
 on: push
 jobs:
   rubocop:

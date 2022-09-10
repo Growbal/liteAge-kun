@@ -9,28 +9,17 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MainHeader from './components/parts/MainHeader.vue';
+import MainHeader from "./components/parts/MainHeader.vue";
 
 export default defineComponent({
   name: "App",
 
   data() {
-    return { 
-    }
+    return {};
   },
 
-   mounted() {
-    
-  },
-  components:{
+  components: {
     MainHeader,
-  },
-  methods: {
-    
-    
-  },
-  computed: {
-    
   },
 });
 </script>

@@ -16,7 +16,7 @@ const router = createRouter({
       path: "/start",
       name: "start",
       component: () => import("../components/views/PreStart.vue"),
-    }
+    },
   ],
 });
 
