@@ -51,10 +51,10 @@ export default defineComponent({
       ],
     };
   },
-  methods:{
-    click:function(){
-        this.$router.push('/question/line');
-    }
-  }
+  methods: {
+    click: function () {
+      this.$router.push("/question/line");
+    },
+  },
 });
 </script>
