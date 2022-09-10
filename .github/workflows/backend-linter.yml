@@ -1,14 +1,10 @@
 name: backend-linter
-on:
-  push:
-    paths:
-      - backend/**
-      - .github/workflows/backend-linter.yml
-defaults:
-  run:
-    working-directory: ${{ github.workspace }}/backend
+on: push
 jobs:
   rubocop:
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
