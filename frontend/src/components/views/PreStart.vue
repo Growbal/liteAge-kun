@@ -51,7 +51,7 @@ export default defineComponent({
         {
           message:
             "4. 実行操作であきらかな不要操作をした場合は、強制的に次の問題に移る可能性があります。",
-        }
+        },
       ],
     };
   },
