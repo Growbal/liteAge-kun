@@ -220,6 +220,7 @@ import QuestionPannel from "./../../../components/parts/QuestionPannel.vue";
 import PhoneHeader from "./../../../components/parts/PhoneHeader.vue";
 import LineTitle from "./../../../components/parts/LineTitle.vue";
 import * as api from "../../../db-util/index";
+import { Database } from "../../../db-util/database";
 
 // let client_h = document.getElementById('test').clientHeight;
 // console.log(client_h)
@@ -235,7 +236,7 @@ const botMessagesAll: string[] = [
 ];
 const userId = 1;
 const questionId = 1;
-const waypointStatusList: number[] = {};
+const database = new Database(userId, questionId);
 
 interface Chat {
   id: number;
@@ -259,7 +260,7 @@ export default defineComponent({
   name: "App",
   data() {
     return {
-      timer: 5 * 60,
+      timer: 5 * 3,
       show: false,
       lineTelDialog: false,
       phoneTelDialog: false,
@@ -302,15 +303,6 @@ export default defineComponent({
     LineTitle,
   },
   methods: {
-    // 採点した結果を格納する
-    scoringcheck: function () {
-      const keys = Object.keys(waypointStatusList)
-        .map((x) => parseInt(x))
-        .sort();
-      keys.forEach(function (key) {
-        api.postScore(userId, questionId, key, waypointStatusList[key]);
-      });
-    },
     // Line電話のモーダルウィンドウのクローズ画面
     closecheck: function () {
       if (!this.textflg) {
@@ -318,7 +310,7 @@ export default defineComponent({
         this.$router.push("/Answer");
       }
       if (this.phoneflg) {
-        waypointStatusList[3] = 15;
+        database.postWaypointScore(3, 15);
       }
       this.lineTelDialog = false;
       this.show = false;
@@ -326,7 +318,7 @@ export default defineComponent({
     // キャリア電話のモーダルウィンドウのクローズ画面
     phonecallclose: function () {
       this.phoneTelDialog = false;
-      waypointStatusList[2] = 15;
+      database.postWaypointScore(2, 15);
       this.phoneflg = true;
     },
 
@@ -334,7 +326,6 @@ export default defineComponent({
       if (this.timer <= 0) {
         clearInterval(timerId);
         console.log(this.timer);
-        this.scoringcheck();
         this.$router.push("/Answer");
       } else {
         this.timer--;
@@ -392,7 +383,7 @@ export default defineComponent({
         this.botMessageNumber++;
       }, Math.random() * (3000 - 1000) + 1000);
 
-      waypointStatusList[1] = 70;
+      database.postWaypointScore(1, 70);
       this.textflg = true;
     },
   },

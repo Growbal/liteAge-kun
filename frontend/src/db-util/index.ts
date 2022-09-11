@@ -73,6 +73,7 @@ export async function getWaypointScore(
       return response.data.waypoint_score;
     } else {
       console.log("getWaypointScore エラー: " + response.data.message);
+      return 0;
     }
   } catch (err) {
     console.log(err);
@@ -94,6 +95,7 @@ export async function getTotalScore(userId: number) {
       return response.data.total_score;
     } else {
       console.log("getTotalScore エラー: " + response.data.message);
+      return 0;
     }
   } catch (err) {
     console.log(err);

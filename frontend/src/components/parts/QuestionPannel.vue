@@ -34,8 +34,6 @@
 </template>
 
 <script lang="ts">
-import * as api from "../../db-util/index";
-
 export default {
   name: "QuestionPannel",
   data() {
