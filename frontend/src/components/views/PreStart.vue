@@ -15,7 +15,7 @@
         </v-list>
         <!-- <v-card-actions  class="justify-center" >
                 <v-btn >試験開始</v-btn>
-            </v-card-actions> -->
+        </v-card-actions> -->
       </v-card>
     </v-row>
     <div>
@@ -23,7 +23,7 @@
         class="justify-center orange lighten-3 pa-1 ma-2"
         align-content="end"
       >
-        <v-btn>テスト開始</v-btn>
+        <v-btn @click="click">テスト開始</v-btn>
       </v-row>
     </div>
   </v-main>
@@ -48,6 +48,10 @@ export default defineComponent({
           message:
             "3. 1問あたりの操作時間は約120分です。時間が過ぎると強制的に次の問題に移ります。なお最終問題の場合は強制的に採点画面に移り変わります。",
         },
+        {
+          message:
+            "4. 実行操作であきらかな不要操作をした場合は、強制的に次の問題に移る可能性があります。",
+        }
       ],
     };
   },

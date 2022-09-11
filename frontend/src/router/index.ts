@@ -13,7 +13,7 @@ const router = createRouter({
       component: () => import("../components/views/Answer.vue"),
     },
     {
-      path: "/start",
+      path: "/",
       name: "start",
       component: () => import("../components/views/PreStart.vue"),
     },
