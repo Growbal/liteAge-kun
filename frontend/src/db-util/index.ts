@@ -45,41 +45,49 @@ export function postScore(
     });
 }
 
-export function getWaypointScore(
+export async function getWaypointScore(
   userId: number,
   questionId: number,
   waypointStatus: number
 ) {
-  axios
-    .get(host + "/api/users/" + userId + "/waypoint_score", {
-      params: {
-        question_id: questionId,
-        waypoint_status: waypointStatus,
-      },
-    })
-    .then(function (response) {
-      if (response.data.success) {
-        console.dir(response.data.waypoint_score);
-      } else {
-        console.log("getWaypointScore エラー: " + response.data.message);
+  try {
+    const response = await axios.get(
+      host + "/api/users/" + userId + "/waypoint_score",
+      {
+        params: {
+          question_id: questionId,
+          waypoint_status: waypointStatus,
+        },
       }
-    })
-    .catch(function (error) {
-      console.dir(error);
-    });
+    );
+
+    if (response.data.success) {
+      return response.data.waypoint_score;
+    } else {
+      console.log("getWaypointScore エラー: " + response.data.message);
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-export function getTotalScore(userId: number) {
-  axios
-    .get(host + "/api/users/" + userId + "/total_score")
-    .then(function (response) {
-      if (response.data.success) {
-        console.dir(response.data.total_score);
-      } else {
-        console.log("getTotalScore エラー: " + response.data.message);
+export async function getTotalScore(userId: number) {
+  try {
+    const response = await axios.get(
+      host + "/api/users/" + userId + "/total_score",
+      {
+        params: {
+          user_id: userId,
+        },
       }
-    })
-    .catch(function (error) {
-      console.dir(error);
-    });
+    );
+
+    if (response.data.success) {
+      return response.data.total_score;
+    } else {
+      console.log("getTotalScore エラー: " + response.data.message);
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
