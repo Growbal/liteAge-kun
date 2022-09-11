@@ -24,8 +24,7 @@ export default defineComponent({
   },
   methods: {},
   mounted() {
-    // const self = this;
-    api.getWaypointScore2(1, 1, 1).then((result) => {
+    api.getWaypointScore(1, 1, 1).then((result: number) => {
       this.score = result;
     });
   },
