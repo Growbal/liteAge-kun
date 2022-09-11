@@ -219,7 +219,6 @@ import { defineComponent } from "vue";
 import QuestionPannel from "./../../../components/parts/QuestionPannel.vue";
 import PhoneHeader from "./../../../components/parts/PhoneHeader.vue";
 import LineTitle from "./../../../components/parts/LineTitle.vue";
-import * as api from "../../../db-util/index";
 import { Database } from "../../../db-util/database";
 
 // let client_h = document.getElementById('test').clientHeight;
@@ -243,18 +242,6 @@ interface Chat {
   isUser: boolean;
   message: string;
 }
-
-interface QuestionScore {
-  questionNumber: number;
-  score: number;
-}
-
-interface UserScore {
-  userid: number;
-  question: number;
-  items?: QuestionScore[];
-}
-const questionManage: UserScore[] = [];
 
 export default defineComponent({
   name: "App",
