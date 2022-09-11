@@ -225,6 +225,7 @@ import * as api from "../../../db-util/index";
 // console.log(client_h)
 let oneceTelephone = false;
 let timer: any = null;
+let timerId: number;
 const username = "kazu";
 const botMessagesAll: string[] = [
   `${username}くん、こんばんわ。今日お家来るんだってね。\n何時ごろにお家に来ますか。連絡待ってます。`,
@@ -232,30 +233,33 @@ const botMessagesAll: string[] = [
   "あれ、おばあちゃん電話切れちゃった。ちょっと電話かけ直してもらってもいいですか？",
   "ありがとうね。気をつけてね。",
 ];
-const scorelist = [];
+const userId = 1;
+const questionId = 1;
+const waypointStatusList: number[] = {};
 
 interface Chat {
   id: number;
   isUser: boolean;
   message: string;
 }
-interface Question {
+
+interface QuestionScore {
   questionNumber: number;
-  isTrue: boolean;
+  score: number;
 }
 
-interface Score {
+interface UserScore {
   userid: number;
   question: number;
-  items?: Question[];
+  items?: QuestionScore[];
 }
-const questionManage: Score[] = [];
+const questionManage: UserScore[] = [];
 
 export default defineComponent({
   name: "App",
   data() {
     return {
-      timer: 5 * 60,
+      timer: 5 * 4,
       show: false,
       lineTelDialog: false,
       phoneTelDialog: false,
@@ -300,9 +304,15 @@ export default defineComponent({
   methods: {
     // 採点した結果を格納する
     scoringcheck: function () {
-      for (let i = 0; i < scorelist.length; i++) {
-        api.postScore(1, 1, 2, scorelist[i].questionNumber);
-      }
+      const keys = Object.keys(waypointStatusList)
+        .map((x) => parseInt(x))
+        .sort();
+      keys.forEach(function (key) {
+        api.postScore(userId, questionId, key, waypointStatusList[key]);
+      });
+      // for (let i = 0; i < keys.length; i++) {
+      //   api.postScore(userId, questionId, keys[i], waypointStatusList[keys[i]]);
+      // }
     },
     // Line電話のモーダルウィンドウのクローズ画面
     closecheck: function () {
@@ -311,11 +321,7 @@ export default defineComponent({
         this.$router.push("/Answer");
       }
       if (this.phoneflg) {
-        const scoreArray: Question = {
-          questionNumber: 3,
-          isTrue: true,
-        };
-        scorelist.push(scoreArray);
+        waypointStatusList[3] = 15;
       }
       this.lineTelDialog = false;
       this.show = false;
@@ -323,18 +329,15 @@ export default defineComponent({
     // キャリア電話のモーダルウィンドウのクローズ画面
     phonecallclose: function () {
       this.phoneTelDialog = false;
-      const scoreArray: Question = {
-        questionNumber: 2,
-        isTrue: true,
-      };
-      scorelist.push(scoreArray);
+      waypointStatusList[2] = 15;
       this.phoneflg = true;
     },
 
     timerCount: function () {
       if (this.timer <= 0) {
-        clearInterval(timer);
-        // scoringcheck();
+        clearInterval(timerId);
+        console.log(this.timer);
+        this.scoringcheck();
         this.$router.push("/Answer");
       } else {
         this.timer--;
@@ -346,7 +349,7 @@ export default defineComponent({
     },
     startTimer: function () {
       const self = this; // eslint-disable-line @typescript-eslint/no-this-alias
-      setInterval(function () {
+      timerId = setInterval(function () {
         self.timerCount();
       }, 1000);
     },
@@ -392,11 +395,7 @@ export default defineComponent({
         this.botMessageNumber++;
       }, Math.random() * (3000 - 1000) + 1000);
 
-      const scoreArray: Question = {
-        questionNumber: 1,
-        isTrue: true,
-      };
-      scorelist.push(scoreArray);
+      waypointStatusList[1] = 70;
       this.textflg = true;
     },
   },

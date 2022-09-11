@@ -15,7 +15,7 @@ export function getScore() {
   });
 }
 
-export function postScore(
+export async function postScore(
   userId: number,
   questioId: number,
   waypointStatus: number,
@@ -29,20 +29,22 @@ export function postScore(
     },
   };
 
-  axios
-    .post(host + "/api/users/" + userId + "/create_score", data, {
-      headers: headers,
-    })
-    .then(function (response) {
-      if (response.data.success) {
-        console.log("OK");
-      } else {
-        console.log("postScore エラー: " + response.data.message);
+  try {
+    const response = await axios.post(
+      host + "/api/users/" + userId + "/create_score",
+      data,
+      {
+        headers: headers,
       }
-    })
-    .catch(function (error) {
-      console.dir(error);
-    });
+    );
+    if (response.data.success) {
+      console.log("postScore成功");
+    } else {
+      console.log("postScore エラー: " + response.data.message);
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function getWaypointScore(
