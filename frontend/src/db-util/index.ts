@@ -83,7 +83,7 @@ export async function getTotalScore(userId: number) {
     );
 
     if (response.data.success) {
-      return response.data.waypoint_score;
+      return response.data.total_score;
     } else {
       console.log("getTotalScore エラー: " + response.data.message);
     }
