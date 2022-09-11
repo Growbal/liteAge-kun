@@ -13,18 +13,27 @@ import { defineComponent } from "vue";
 import * as api from "../../db-util/index";
 import type { Header, Item } from "vue3-easy-data-table";
 
+interface Result {
+  id: number;
+  score: number;
+}
+
 export default defineComponent({
   name: "Answer",
   data() {
     return {
-      score: 0 as number,
+      results: {} as number[],
     };
   },
   methods: {},
   mounted() {
-    api.getWaypointScore(1, 1, 1).then((result: number) => {
-      this.score = result;
-    });
+    // ToDo: とりあえず動くように連想配列にした。indexを気にせずに使えるようにしたい。
+    for (let i = 1; i < 4; i++) {
+      api.getWaypointScore(1, 1, i).then((score: number) => {
+        this.results[i] = score;
+      });
+    }
+    console.dir(this.results);
   },
   computed: {
     headers: function (): Header[] {
@@ -39,7 +48,17 @@ export default defineComponent({
         {
           question: "LINE",
           waypoint: "おばあちゃんとテキストのやりとりができている",
-          score: this.score,
+          score: this.results[1],
+        },
+        {
+          question: "",
+          waypoint: "おばあちゃんからキャリアでの電話を拒否した",
+          score: this.results[2],
+        },
+        {
+          question: "",
+          waypoint: "Lineから折り返しの電話をする",
+          score: this.results[3],
         },
       ];
     },
