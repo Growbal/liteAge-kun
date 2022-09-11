@@ -7,6 +7,7 @@ Rails.application.routes.draw do
         post :create_score
         get :waypoint_score
         get :total_score
+        delete :destroy_score
       end
     end
   end

@@ -219,12 +219,13 @@ import { defineComponent } from "vue";
 import QuestionPannel from "./../../../components/parts/QuestionPannel.vue";
 import PhoneHeader from "./../../../components/parts/PhoneHeader.vue";
 import LineTitle from "./../../../components/parts/LineTitle.vue";
-import * as api from "../../../db-util/index";
+import { Database } from "../../../db-util/database";
 
 // let client_h = document.getElementById('test').clientHeight;
 // console.log(client_h)
 let oneceTelephone = false;
 let timer: any = null;
+let timerId: number;
 const username = "kazu";
 const botMessagesAll: string[] = [
   `${username}くん、こんばんわ。今日お家来るんだってね。\n何時ごろにお家に来ますか。連絡待ってます。`,
@@ -232,24 +233,15 @@ const botMessagesAll: string[] = [
   "あれ、おばあちゃん電話切れちゃった。ちょっと電話かけ直してもらってもいいですか？",
   "ありがとうね。気をつけてね。",
 ];
-const scorelist = [];
+const userId = 1;
+const questionId = 1;
+const database = new Database(userId, questionId);
 
 interface Chat {
   id: number;
   isUser: boolean;
   message: string;
 }
-interface Question {
-  questionNumber: number;
-  isTrue: boolean;
-}
-
-interface Score {
-  userid: number;
-  question: number;
-  items?: Question[];
-}
-const questionManage: Score[] = [];
 
 export default defineComponent({
   name: "App",
@@ -298,12 +290,6 @@ export default defineComponent({
     LineTitle,
   },
   methods: {
-    // 採点した結果を格納する
-    scoringcheck: function () {
-      for (let i = 0; i < scorelist.length; i++) {
-        api.postScore(1, 1, 2, scorelist[i].questionNumber);
-      }
-    },
     // Line電話のモーダルウィンドウのクローズ画面
     closecheck: function () {
       if (!this.textflg) {
@@ -311,11 +297,7 @@ export default defineComponent({
         this.$router.push("/Answer");
       }
       if (this.phoneflg) {
-        const scoreArray: Question = {
-          questionNumber: 3,
-          isTrue: true,
-        };
-        scorelist.push(scoreArray);
+        database.postWaypointScore(3, 15);
       }
       this.lineTelDialog = false;
       this.show = false;
@@ -323,18 +305,14 @@ export default defineComponent({
     // キャリア電話のモーダルウィンドウのクローズ画面
     phonecallclose: function () {
       this.phoneTelDialog = false;
-      const scoreArray: Question = {
-        questionNumber: 2,
-        isTrue: true,
-      };
-      scorelist.push(scoreArray);
+      database.postWaypointScore(2, 15);
       this.phoneflg = true;
     },
 
     timerCount: function () {
       if (this.timer <= 0) {
-        clearInterval(timer);
-        // scoringcheck();
+        clearInterval(timerId);
+        console.log(this.timer);
         this.$router.push("/Answer");
       } else {
         this.timer--;
@@ -346,7 +324,7 @@ export default defineComponent({
     },
     startTimer: function () {
       const self = this; // eslint-disable-line @typescript-eslint/no-this-alias
-      setInterval(function () {
+      timerId = setInterval(function () {
         self.timerCount();
       }, 1000);
     },
@@ -392,11 +370,7 @@ export default defineComponent({
         this.botMessageNumber++;
       }, Math.random() * (3000 - 1000) + 1000);
 
-      const scoreArray: Question = {
-        questionNumber: 1,
-        isTrue: true,
-      };
-      scorelist.push(scoreArray);
+      database.postWaypointScore(1, 70);
       this.textflg = true;
     },
   },

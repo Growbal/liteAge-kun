@@ -5,17 +5,23 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export function getScore() {
-  axios.get(host + "/api/tests").then(function (response) {
-    if (response.status == 200) {
-      console.log("OK");
+export async function destroyScore(userId: number) {
+  try {
+    const response = await axios.delete(
+      host + "/api/users/" + userId + "/destroy_score",
+      { headers: headers }
+    );
+    if (response.data.success) {
+      console.log("destroyScore 成功");
     } else {
-      console.log("NG");
+      console.log("destroyScore エラー: " + response.data.message);
     }
-  });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-export function postScore(
+export async function postScore(
   userId: number,
   questioId: number,
   waypointStatus: number,
@@ -29,20 +35,22 @@ export function postScore(
     },
   };
 
-  axios
-    .post(host + "/api/users/" + userId + "/create_score", data, {
-      headers: headers,
-    })
-    .then(function (response) {
-      if (response.data.success) {
-        console.log("OK");
-      } else {
-        console.log("postScore エラー: " + response.data.message);
+  try {
+    const response = await axios.post(
+      host + "/api/users/" + userId + "/create_score",
+      data,
+      {
+        headers: headers,
       }
-    })
-    .catch(function (error) {
-      console.dir(error);
-    });
+    );
+    if (response.data.success) {
+      console.log("postScore 成功");
+    } else {
+      console.log("postScore エラー: " + response.data.message);
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function getWaypointScore(
@@ -65,6 +73,7 @@ export async function getWaypointScore(
       return response.data.waypoint_score;
     } else {
       console.log("getWaypointScore エラー: " + response.data.message);
+      return 0;
     }
   } catch (err) {
     console.log(err);
@@ -86,6 +95,7 @@ export async function getTotalScore(userId: number) {
       return response.data.total_score;
     } else {
       console.log("getTotalScore エラー: " + response.data.message);
+      return 0;
     }
   } catch (err) {
     console.log(err);
