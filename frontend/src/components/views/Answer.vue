@@ -13,8 +13,6 @@ import { defineComponent } from "vue";
 import * as api from "../../db-util/index";
 import type { Header, Item } from "vue3-easy-data-table";
 
-// let score: number;
-
 export default defineComponent({
   name: "Answer",
   data() {
@@ -29,14 +27,14 @@ export default defineComponent({
     });
   },
   computed: {
-    headers: function () {
+    headers: function (): Header[] {
       return [
         { text: "大項目", value: "question" },
         { text: "項目", value: "waypoint" },
         { text: "点数", value: "score", sortable: true },
       ];
     },
-    items: function () {
+    items: function (): Item[] {
       return [
         {
           question: "LINE",
