@@ -7,7 +7,7 @@
         <div class="linepannel" ref="lineframe" height="1200px">
           <!-- :hegiht="lainframe_height" -->
           <PhoneHeader />
-          <LineTitle @click="click" />
+          <LineTitle v-on:click="click" />
           <v-toolbar v-show="show">
             <v-col>
               <v-row justify="end">
@@ -20,6 +20,7 @@
                       class="ml-4"
                       variant="text"
                       icon="mdi-phone"
+                      @click="checkpoint"
                     ></v-btn>
                   </template>
                   <v-card height="50vh" width="50vh">
@@ -54,10 +55,7 @@
                             <v-btn
                               variant="text"
                               icon="mdi-close-circle"
-                              @click="
-                                lineTelDialog = false;
-                                show = false;
-                              "
+                              @click="closecheck()"
                             >
                             </v-btn>
                           </v-row>
@@ -142,10 +140,10 @@
       </v-col>
     </v-row>
   </div>
-
   <v-dialog v-model="phoneTelDialog" persistent width="2000">
     <template v-slot:activator="{ isActive: on, props: attrs }"> </template>
-    <v-card height="50vh" width="70vh" color="black">
+    <!-- eslint-disable vue/no-unused-vars -->
+    <v-card height="60vh" width="70vh" color="black">
       <v-card-text></v-card-text>
       <v-row justify="center">
         <v-avatar color="teal" size="56">
@@ -156,49 +154,61 @@
         </v-avatar>
       </v-row>
       <h4 class="text-center">おばあちゃん</h4>
-      <center>
+      <v-row justify="center" class="orange lighten-2 ma-1">
         <p class="text-caption">日本</p>
-      </center>
-      <v-card-text></v-card-text>
-      <v-card-text></v-card-text>
-      <v-card-actions>
-        <v-row>
-          <v-col>
-            <v-row justify="center">
-              <v-btn variant="text" icon="mdi-microphone-outline"></v-btn>
-            </v-row>
-            <v-row justify="center">
-              <p class="text-caption">あとで通知</p>
-            </v-row>
-          </v-col>
-          <v-col>
-            <v-row justify="center">
-              <v-btn
-                variant="text"
-                icon="mdi-close-circle"
-                @click="phoneTelDialog = false"
-              ></v-btn>
-            </v-row>
-            <v-row justify="center">
-              <p class="text-caption">メッセージを送信</p>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-card-actions>
-      <v-row>
+      </v-row>
+      <v-row class="orange lighten-3 pa-1">
+        <v-col>
+          <v-row justify="center">
+            <v-btn variant="text" icon="mdi-timer"></v-btn>
+          </v-row>
+          <v-row justify="center">
+            <p class="text-caption">あとで通知</p>
+          </v-row>
+        </v-col>
         <v-col>
           <v-row justify="center">
             <v-btn
               variant="text"
-              icon="mdi-close-circle"
+              icon="mdi-message-outline"
               @click="phoneTelDialog = false"
             ></v-btn>
           </v-row>
           <v-row justify="center">
-            <p class="text-caption">電話を切る</p>
+            <p class="text-caption">メッセージを送信</p>
           </v-row>
         </v-col>
       </v-row>
+      <div>
+        <v-row class="orange">
+          <v-col>
+            <v-row justify="space-around" class="d-flex">
+              <v-btn
+                fab
+                color="red"
+                rounded
+                @click="phonecallclose"
+                icon="mdi-phone-hangup"
+              >
+                <v-icon color="white">mdi-phone-hangup</v-icon>
+              </v-btn>
+            </v-row>
+          </v-col>
+          <v-col>
+            <v-row justify="space-around">
+              <v-btn
+                fab
+                rounded
+                color="green"
+                icon="mdi-phone"
+                @click="phonecallclose"
+              >
+                <v-icon color="white">mdi-phone</v-icon>
+              </v-btn>
+            </v-row>
+          </v-col>
+        </v-row>
+      </div>
       <v-card-text></v-card-text>
     </v-card>
   </v-dialog>
@@ -209,22 +219,37 @@ import { defineComponent } from "vue";
 import QuestionPannel from "./../../../components/parts/QuestionPannel.vue";
 import PhoneHeader from "./../../../components/parts/PhoneHeader.vue";
 import LineTitle from "./../../../components/parts/LineTitle.vue";
+import * as api from "../../../db-util/index";
 
 // let client_h = document.getElementById('test').clientHeight;
 // console.log(client_h)
 let oneceTelephone = false;
 let timer: any = null;
+const username = "kazu";
 const botMessagesAll: string[] = [
-  "kazuくん、こんばんわ。今日お家来るんだってね。\n何時ごろにお家に来ますか。連絡待ってます。",
-  "文字が見えにくいので電話します",
-  "333",
-  "444",
+  `${username}くん、こんばんわ。今日お家来るんだってね。\n何時ごろにお家に来ますか。連絡待ってます。`,
+  "文字打つのが遅いので電話かけますね。",
+  "あれ、おばあちゃん電話切れちゃった。ちょっと電話かけ直してもらってもいいですか？",
+  "ありがとうね。気をつけてね。",
 ];
+const scorelist = [];
+
 interface Chat {
   id: number;
   isUser: boolean;
   message: string;
 }
+interface Question {
+  questionNumber: number;
+  isTrue: boolean;
+}
+
+interface Score {
+  userid: number;
+  question: number;
+  items?: Question[];
+}
+const questionManage: Score[] = [];
 
 export default defineComponent({
   name: "App",
@@ -241,6 +266,8 @@ export default defineComponent({
       height: window.innerHeight,
       lainframe_height: 0,
       height_vh: "",
+      textflg: false,
+      phoneflg: false,
     };
   },
 
@@ -271,9 +298,44 @@ export default defineComponent({
     LineTitle,
   },
   methods: {
+    // 採点した結果を格納する
+    scoringcheck: function () {
+      for (let i = 0; i < scorelist.length; i++) {
+        api.postScore(1, 1, 2, scorelist[i].questionNumber);
+      }
+    },
+    // Line電話のモーダルウィンドウのクローズ画面
+    closecheck: function () {
+      if (!this.textflg) {
+        alert("連絡をせずにおばあちゃんに電話をしたため、強制終了します。");
+        this.$router.push("/Answer");
+      }
+      if (this.phoneflg) {
+        const scoreArray: Question = {
+          questionNumber: 3,
+          isTrue: true,
+        };
+        scorelist.push(scoreArray);
+      }
+      this.lineTelDialog = false;
+      this.show = false;
+    },
+    // キャリア電話のモーダルウィンドウのクローズ画面
+    phonecallclose: function () {
+      this.phoneTelDialog = false;
+      const scoreArray: Question = {
+        questionNumber: 2,
+        isTrue: true,
+      };
+      scorelist.push(scoreArray);
+      this.phoneflg = true;
+    },
+
     timerCount: function () {
       if (this.timer <= 0) {
         clearInterval(timer);
+        // scoringcheck();
+        this.$router.push("/Answer");
       } else {
         this.timer--;
       }
@@ -303,9 +365,7 @@ export default defineComponent({
     },
 
     sendMessage: function () {
-      if (this.chatMessage == "") {
-        return;
-      }
+      if (this.chatMessage == "") return;
 
       if (!oneceTelephone) {
         setTimeout(() => {
@@ -331,6 +391,13 @@ export default defineComponent({
         this.chats.push(botChat);
         this.botMessageNumber++;
       }, Math.random() * (3000 - 1000) + 1000);
+
+      const scoreArray: Question = {
+        questionNumber: 1,
+        isTrue: true,
+      };
+      scorelist.push(scoreArray);
+      this.textflg = true;
     },
   },
   computed: {
