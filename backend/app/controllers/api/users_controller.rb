@@ -6,7 +6,7 @@ module Api
 
     def create_score
       user.user_scores.create!(user_score_params)
-      render json: { success: true }, status: :ok
+      render json: { success: true }
     rescue => e
       render json: { success: false, message: e.message }
     end
@@ -26,6 +26,13 @@ module Api
     def total_score
       total_score = user.user_scores.sum(:score)
       render json: { success: true, total_score: }
+    rescue => e
+      render json: { success: false, message: e.message }
+    end
+
+    def destroy_score
+      user.user_scores.destroy_all
+      render json: { success: true }
     rescue => e
       render json: { success: false, message: e.message }
     end

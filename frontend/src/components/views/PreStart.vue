@@ -30,6 +30,9 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import * as api from "../../db-util/index";
+
+const userId = 1;
 
 export default defineComponent({
   name: "PreStart",
@@ -57,6 +60,7 @@ export default defineComponent({
   },
   methods: {
     click: function () {
+      api.destroyScore(userId);
       this.$router.push("/question/line");
     },
   },

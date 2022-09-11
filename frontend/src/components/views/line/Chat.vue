@@ -310,9 +310,6 @@ export default defineComponent({
       keys.forEach(function (key) {
         api.postScore(userId, questionId, key, waypointStatusList[key]);
       });
-      // for (let i = 0; i < keys.length; i++) {
-      //   api.postScore(userId, questionId, keys[i], waypointStatusList[keys[i]]);
-      // }
     },
     // Line電話のモーダルウィンドウのクローズ画面
     closecheck: function () {

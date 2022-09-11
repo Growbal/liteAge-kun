@@ -5,14 +5,20 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export function getScore() {
-  axios.get(host + "/api/tests").then(function (response) {
-    if (response.status == 200) {
-      console.log("OK");
+export async function destroyScore(userId: number) {
+  try {
+    const response = await axios.delete(
+      host + "/api/users/" + userId + "/destroy_score",
+      { headers: headers }
+    );
+    if (response.data.success) {
+      console.log("destroyScore 成功");
     } else {
-      console.log("NG");
+      console.log("destroyScore エラー: " + response.data.message);
     }
-  });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function postScore(
@@ -38,7 +44,7 @@ export async function postScore(
       }
     );
     if (response.data.success) {
-      console.log("postScore成功");
+      console.log("postScore 成功");
     } else {
       console.log("postScore エラー: " + response.data.message);
     }
