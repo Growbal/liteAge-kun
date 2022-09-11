@@ -247,7 +247,7 @@ export default defineComponent({
   name: "App",
   data() {
     return {
-      timer: 5 * 3,
+      timer: 5 * 60,
       show: false,
       lineTelDialog: false,
       phoneTelDialog: false,
