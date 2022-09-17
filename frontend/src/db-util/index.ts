@@ -5,16 +5,16 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export async function destroyScore(userId: number) {
+export async function refleshScore(userId: number) {
   try {
     const response = await axios.delete(
       host + "/api/users/" + userId + "/destroy_score",
       { headers: headers }
     );
     if (response.data.success) {
-      console.log("destroyScore 成功");
+      console.log("refleshScore 成功");
     } else {
-      console.log("destroyScore エラー: " + response.data.message);
+      console.log("refleshScore エラー: " + response.data.message);
     }
   } catch (err) {
     console.log(err);
