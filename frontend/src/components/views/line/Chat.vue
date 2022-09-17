@@ -140,8 +140,9 @@
       </v-col>
     </v-row>
   </div>
+  <PhoneCalling :phoneCallingDialog="phoneCallingDialogFlg" />
   <v-dialog v-model="phoneTelDialog" persistent width="2000">
-    <template v-slot:activator="{ isActive: on, props: attrs }"> </template>
+    <template v-slot:activator="{ isActive: on, props: attrs }" />
     <!-- eslint-disable vue/no-unused-vars -->
     <v-card height="60vh" width="70vh" color="black">
       <v-card-text></v-card-text>
@@ -201,7 +202,7 @@
                 rounded
                 color="green"
                 icon="mdi-phone"
-                @click="phonecallclose"
+                @click.stop="phonecallopen"
               >
                 <v-icon color="white">mdi-phone</v-icon>
               </v-btn>
@@ -215,11 +216,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import QuestionPannel from "./../../../components/parts/QuestionPannel.vue";
 import PhoneHeader from "./../../../components/parts/PhoneHeader.vue";
 import LineTitle from "./../../../components/parts/LineTitle.vue";
 import { Database } from "../../../db-util/database";
+import PhoneCalling from "./../../../components/parts/PhoneCalling.vue";
 
 // let client_h = document.getElementById('test').clientHeight;
 // console.log(client_h)
@@ -260,9 +262,9 @@ export default defineComponent({
       height_vh: "",
       textflg: false,
       phoneflg: false,
+      phoneCallingDialogFlg: false,
     };
   },
-
   mounted() {
     timer = this.startTimer();
     const chat: Chat = {
@@ -288,6 +290,7 @@ export default defineComponent({
     QuestionPannel,
     PhoneHeader,
     LineTitle,
+    PhoneCalling,
   },
   methods: {
     // Line電話のモーダルウィンドウのクローズ画面
@@ -308,7 +311,10 @@ export default defineComponent({
       database.postWaypointScore(2, 15);
       this.phoneflg = true;
     },
-
+    phonecallopen: function () {
+      this.phoneTelDialog = false;
+      this.phoneCallingDialogFlg = true;
+    },
     timerCount: function () {
       if (this.timer <= 0) {
         clearInterval(timerId);
