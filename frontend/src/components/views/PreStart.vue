@@ -60,7 +60,7 @@ export default defineComponent({
   },
   methods: {
     click: function () {
-      // api.destroyScore(userId);
+      api.destroyScore(userId);
       this.$router.push("/question/line");
     },
   },
