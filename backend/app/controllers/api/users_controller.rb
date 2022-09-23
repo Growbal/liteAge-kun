@@ -4,6 +4,19 @@ module Api
   class UsersController < ApplicationController
     protect_from_forgery expect: %i[create_score]
 
+    def users_info
+      users = User.all
+      render json: { success: true, users: }
+    rescue => e
+      render json: { success: false, message: e.message }
+    end
+
+    def user_info
+      render json: { success: true, user: }
+    rescue => e
+      render json: { success: false, message: e.message }
+    end
+
     def create_score
       user.user_scores.create!(user_score_params)
       render json: { success: true }
