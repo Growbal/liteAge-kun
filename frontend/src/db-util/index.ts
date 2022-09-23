@@ -5,6 +5,38 @@ const headers = {
   "Content-Type": "application/json",
 };
 
+export async function getUsers() {
+  try {
+    const response = await axios.get(host + "/api/users/users_info");
+
+    if (response.data.success) {
+      return response.data.users;
+    } else {
+      console.log("getUsers エラー: " + response.data.message);
+      return 0;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getUser(userId: number) {
+  try {
+    const response = await axios.get(
+      host + "/api/users/" + userId + "/user_info"
+    );
+
+    if (response.data.success) {
+      return response.data.user;
+    } else {
+      console.log("getUser エラー: " + response.data.message);
+      return 0;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function refleshScore(userId: number) {
   try {
     const response = await axios.delete(
