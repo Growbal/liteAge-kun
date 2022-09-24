@@ -8,5 +8,7 @@ class UserAuthentication < ApplicationRecord
          :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  has_many :posts, dependent: :destroy
+
   belongs_to :user
 end
