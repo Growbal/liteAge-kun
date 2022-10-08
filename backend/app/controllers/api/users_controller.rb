@@ -5,8 +5,16 @@ module Api
     protect_from_forgery expect: %i[create_score]
 
     def users_info
-      users = User.all
-      render json: { success: true, users: }
+      users = User.left_joins(:user_authentication).select('*')
+      users_sum_score = User.sum_score
+
+      merged_users = users.map do |user|
+        hash = user.attributes
+        hash[:score] = users_sum_score[user.id] || 0
+        hash
+      end
+
+      render json: { success: true, users: merged_users }
     rescue => e
       render json: { success: false, message: e.message }
     end
