@@ -10,6 +10,7 @@ ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
     user = User.create!(
       id: user_index,
       name: "かず#{user_index}",
+      gender: user_index.odd? ? User.genders[:male] : User.genders[:female],
     )
 
     (1..3).each do |waypoint_index|

@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
+  enum gender: { male: 1, female: 2 }
+
   def self.sum_score
     includes(:user_scores)
       .group(:user_id)
