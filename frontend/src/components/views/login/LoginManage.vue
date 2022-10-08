@@ -1,5 +1,5 @@
 <template>
-  <v-main>
+  <div>
     <v-row class="" justify="center">
       <v-col class="pa-6">
         <v-card class="mx-auto my-12" dark>
@@ -14,7 +14,7 @@
           </div>
           <v-card-actions>
             <v-row justify="center">
-                <v-btn>csv変換</v-btn>
+              <v-btn>csv変換</v-btn>
             </v-row>
           </v-card-actions>
         </v-card>
@@ -36,14 +36,12 @@
         </v-card>
       </v-col>
     </v-row>
-  </v-main>
+  </div>
 </template>
 
 <script setup lang="ts">
 import type { Header, Item, ClickRowArgument } from "vue3-easy-data-table";
-import { computed } from "@vue/reactivity";
-import { ref } from "vue";
-import { h } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -64,23 +62,27 @@ ChartJS.register(
 );
 
 interface Props {
-  header: Header;
-  items: [];
   chartId: string;
   datasetIdKey: string;
-  styles: Object;
+  styles: Object; // eslint-disable-line @typescript-eslint/ban-types
   width?: number;
   height?: number;
   cssClasses: string;
-  plugins: Object;
-  
+  plugins: Object; // eslint-disable-line @typescript-eslint/ban-types
 }
-
+interface UserJson {
+  [key: string]: UserInfo;
+}
+interface UserInfo {
+  name: string;
+  age?: number;
+  score?: number;
+  lastaccessd: string;
+}
 interface Emits {
   (e: "input", value: string): void;
 }
 
-// props defalt
 const props = withDefaults(defineProps<Props>(), {
   chartId: "bar-chart",
   width: 600,
@@ -103,7 +105,6 @@ const chartData = ref({
   ],
 });
 const chartOptions = ref({ responsive: true });
-
 const headers: Header[] = [
   { text: "Name", value: "name" },
   { text: "Age", value: "age" },
@@ -111,20 +112,33 @@ const headers: Header[] = [
   { text: "Last Accessed", value: "lastaccessd" },
 ];
 
-const items: Item[] = [
-  { name: "hoge", age: 20, score: 80, lastaccessd: "2022/09/23 21:01:00" },
-];
+let total_score: any;
+
+onBeforeMount(async () => {
+  const mockItems: Item[] = [];
+  const chartUsers = [];
+  const chartScores = [];
+  await api.getUsers().then((score) => {
+    total_score = score;
+  });
+  for (let i = 0; i < 2; i++) {
+    mockItems.push({
+      name: total_score[i].name,
+      age: 0,
+      score: 0,
+      lastaccessd: total_score[i].updated_at,
+    });
+    chartUsers.push(total_score[i].name);
+    chartScores.push(10);
+  }
+  items.value = mockItems;
+  chartData.value.labels = chartUsers;
+  chartData.value.datasets[0].data = chartScores;
+});
+const items = ref<Item[]>([]);
 const showRow = (item: ClickRowArgument) => {
   // document.getElementById('row-clicked').innerHTML = JSON.stringify(item);
 };
-
-const getTotalScore = computed(()=>{
-    api.getTotalScore(userId).then((score: number) => {
-      this.totalScore = score;
-    });
-})
-
-
 </script>
 
 <script lang="ts">

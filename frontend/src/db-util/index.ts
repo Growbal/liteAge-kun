@@ -10,7 +10,7 @@ export async function getUsers() {
     const response = await axios.get(host + "/api/users/users_info");
 
     if (response.data.success) {
-      return response.data.users;
+      return await response.data.users;
     } else {
       console.log("getUsers エラー: " + response.data.message);
       return 0;
