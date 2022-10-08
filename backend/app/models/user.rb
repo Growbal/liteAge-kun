@@ -6,4 +6,12 @@ class User < ApplicationRecord
   has_one :user_authentication, dependent: :destroy
 
   validates :name, presence: true
+
+  enum gender: { male: 1, female: 2 }
+
+  def self.sum_score
+    includes(:user_scores)
+      .group(:user_id)
+      .sum(:score)
+  end
 end
