@@ -26,7 +26,6 @@ export default defineComponent({
       totalScore: 0 as number,
     };
   },
-
   mounted() {
     // ToDo: とりあえず動くように連想配列にした。indexを気にせずに使えるようにしたい。
     for (let i = 1; i < waypointStatusMaximum + 1; i++) {
@@ -38,7 +37,6 @@ export default defineComponent({
       this.totalScore = score;
     });
   },
-
   computed: {
     headers: function (): Header[] {
       return [

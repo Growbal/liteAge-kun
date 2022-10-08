@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import MainHeader from "./components/parts/MainHeader.vue";
+</script>
+
 <template>
   <v-app>
     <v-main>
@@ -6,20 +10,3 @@
     </v-main>
   </v-app>
 </template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-import MainHeader from "./components/parts/MainHeader.vue";
-
-export default defineComponent({
-  name: "App",
-
-  data() {
-    return {};
-  },
-
-  components: {
-    MainHeader,
-  },
-});
-</script>

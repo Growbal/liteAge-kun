@@ -17,6 +17,16 @@ const router = createRouter({
       name: "start",
       component: () => import("../components/views/PreStart.vue"),
     },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../components/views/login/LoginForm.vue"),
+    },
+    {
+      path: "/loginManage",
+      name: "loginManage",
+      component: () => import("../components/views/login/LoginManage.vue"),
+    },
   ],
 });
 
