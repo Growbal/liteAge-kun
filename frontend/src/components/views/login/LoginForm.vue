@@ -5,17 +5,15 @@
       label="Email"
       single-line
       full-width
-      hide-details
-      :rules="[rules.required]"
+      :rules="[rules.required, rules.emailRegexp]"
     ></v-text-field>
-    <v-divider></v-divider>
+
     <v-text-field
       v-model="password"
       name="password"
       label="Password"
       single-line
       full-width
-      hide-details
       counter
       :append-icon="isPasswordEyeOn ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="[rules.required]"
@@ -33,8 +31,7 @@ import { defineComponent, reactive, toRefs } from "vue";
 import * as api from "../../../db-util/index";
 
 const emailRegexp = new RegExp(
-  "^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$",
-  "g"
+  /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*[.])+[a-zA-Z]{2,}$/
 );
 
 export default defineComponent({
@@ -57,7 +54,7 @@ export default defineComponent({
               alert("メールアドレスかパスワードが間違っています。");
             }
           })
-          .catch((e) => {
+          .catch(() => {
             alert("ログインに失敗しました。");
           });
       },
@@ -71,7 +68,7 @@ export default defineComponent({
               alert("ログインしていません。");
             }
           })
-          .catch((e) => {
+          .catch(() => {
             alert("ログアウトに失敗しました。");
           });
       },
@@ -83,8 +80,8 @@ export default defineComponent({
       isPasswordEyeOn: false,
       rules: {
         required: (value) => !!value || "Required.",
-        emailRegexp: (value) => emailRegexp.exec(value),
-        emailMatch: () => `The email and password you entered don't match`,
+        emailRegexp: (value) =>
+          !!emailRegexp.exec(value) || "正常なメールアドレスを入力してください",
       },
     };
   },
