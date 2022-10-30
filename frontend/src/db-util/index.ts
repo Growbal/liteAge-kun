@@ -1,4 +1,10 @@
 import * as axios from "axios";
+import type { UserAuthentication } from "@/types/user_authentication";
+import {
+  getAuthDataFromStorage,
+  removeAuthDataFromStorage,
+  setAuthDataFromResponse,
+} from "@/db-util/auth-data";
 
 const host = "http://localhost:3000";
 const headers = {
@@ -128,6 +134,51 @@ export async function getTotalScore(userId: number) {
     } else {
       console.log("getTotalScore エラー: " + response.data.message);
       return 0;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function login(email: string, password: string) {
+  const data = {
+    email: email,
+    password: password,
+  };
+
+  try {
+    const response = await axios.post<UserAuthentication>(
+      host + "/auth/sign_in",
+      data,
+      {
+        headers: headers,
+      }
+    );
+
+    if (response.status == 200) {
+      console.log("login 成功");
+      setAuthDataFromResponse(response.headers);
+      return response;
+    } else {
+      console.log("login エラー: ");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function logout() {
+  try {
+    const response = await axios.delete(host + "/auth/sign_out", {
+      headers: getAuthDataFromStorage(),
+    });
+
+    if (response.status == 200) {
+      console.log("logout 成功");
+      removeAuthDataFromStorage();
+      return response;
+    } else {
+      console.log("logout エラー: ");
     }
   } catch (err) {
     console.log(err);
