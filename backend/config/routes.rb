@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'UserAuthentication', at: 'auth'
   namespace :api do
-    resources :users, only: %i[] do
+    resources :users, only: %i[create] do
       collection do
         get :users_info
       end

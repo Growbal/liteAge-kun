@@ -140,6 +140,38 @@ export async function getTotalScore(userId: number) {
   }
 }
 
+export async function signup(name: string, email: string, password: string) {
+  const data = {
+    users: {
+      name: name,
+    },
+    user_authentications: {
+      email: email,
+      password: password,
+    },
+  };
+
+  try {
+    const response = await axios.post<UserAuthentication>(
+      host + "/api/users",
+      data,
+      {
+        headers: headers,
+      }
+    );
+
+    if (response.data.success) {
+      console.log("signup 成功");
+      setAuthDataFromResponse(response.headers);
+    } else {
+      console.log("signup エラー: ");
+    }
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function login(email: string, password: string) {
   const data = {
     email: email,
@@ -158,10 +190,10 @@ export async function login(email: string, password: string) {
     if (response.status == 200) {
       console.log("login 成功");
       setAuthDataFromResponse(response.headers);
-      return response;
     } else {
       console.log("login エラー: ");
     }
+    return response;
   } catch (err) {
     console.log(err);
   }
