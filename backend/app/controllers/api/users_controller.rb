@@ -4,6 +4,15 @@ module Api
   class UsersController < ApplicationController
     protect_from_forgery expect: %i[create_score]
 
+    def create
+      user = User.create!(user_params)
+      user.build_user_authentication(user_authentication_params).save!
+
+      render json: { success: true }
+    rescue => e
+      render json: { success: false, message: e.message }
+    end
+
     def users_info
       users = User.left_joins(:user_authentication).select('*')
       users_sum_score = User.sum_score
@@ -62,6 +71,17 @@ module Api
 
     def user
       @user ||= User.includes(:user_scores).find(params[:id])
+    end
+
+    def user_params
+      params.require(:users).permit(:name)
+    end
+
+    def user_authentication_params
+      params.require(:user_authentications).permit(
+        :email,
+        :password,
+      )
     end
 
     def user_score_params
