@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserScore < ApplicationRecord
+class User::Score < ApplicationRecord
   belongs_to :user
   belongs_to :question
 

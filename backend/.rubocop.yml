@@ -28,3 +28,6 @@ Style/TrailingCommaInArrayLiteral:
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact

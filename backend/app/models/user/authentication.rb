@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserAuthentication < ApplicationRecord
+class User::Authentication < ApplicationRecord
   # Include default devise modules.
   # NOTE: :confirmable はテスト用アカウントがアクティベートできないので削除している
   devise :database_authenticatable, :registerable,
