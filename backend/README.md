@@ -12,6 +12,11 @@ docker-compose run --rm app rails db:seed
 docker-compose up -d
 ```
 
+# port番号
+
+appは13000  
+dbは13306  
+
 # seedデータの内容
 
 ```

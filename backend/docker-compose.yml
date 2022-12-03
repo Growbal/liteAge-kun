@@ -3,16 +3,18 @@ version: '3.8'
 
 services:
   db:
+    container_name: liteAge-kun_db
     command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone='Asia/Tokyo'
     image: mysql:8.0
     ports:
-      - '3306:3306'
+      - '13306:3306'
     volumes:
       - db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
 
   app:
+    container_name: liteAge-kun_app
     build:
       context: .
       dockerfile: ./docker/Dockerfile.local
@@ -29,7 +31,7 @@ services:
       - ./:/app
     command: bash -c "rm -f tmp/pids/server.pid && bin/rails s -b '0.0.0.0'"
     ports:
-      - '3000:3000'
+      - '13000:3000'
     depends_on:
       - db
 
