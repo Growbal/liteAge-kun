@@ -16,5 +16,7 @@ Rails.application.routes.draw do
         delete :destroy_score
       end
     end
+
+    resources :questions, only: %i[]
   end
 end
