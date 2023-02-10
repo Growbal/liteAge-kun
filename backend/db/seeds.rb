@@ -14,7 +14,7 @@ ActiveRecord::Base.transaction(joinable: false, requires_new: true) do
     )
 
     (1..3).each do |waypoint_index|
-      UserScore.create!(
+      User::Score.create!(
         user:,
         question:,
         waypoint_status: waypoint_index,

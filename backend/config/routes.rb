@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'UserAuthentication', at: 'auth'
+  mount_devise_token_auth_for 'User::Authentication', at: 'auth'
   namespace :api do
     resources :users, only: %i[create] do
       collection do
@@ -16,5 +16,7 @@ Rails.application.routes.draw do
         delete :destroy_score
       end
     end
+
+    resources :questions, only: %i[]
   end
 end
